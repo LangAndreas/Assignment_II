@@ -16,9 +16,11 @@ class moveNode(Node):
         super().__init__("moveNode")
         self.state = 1
         self.randomNumber = random.uniform(0,5)
+
         #Creating publisher and subscriber
         self.cmd_vel_pub = self.create_publisher(Twist, "/turtle1/cmd_vel",10)
         self.pose_sub = self.create_subscription(Pose,"/turtle1/pose",self.poseCallback,9)
+        
         #Checking the state machine every 0.1 seconds
         self.timer = self.create_timer(0.1, self.stateMachine)
         self.get_logger().info("Node started")
@@ -30,7 +32,6 @@ class moveNode(Node):
         self.cmd_vel_pub.publish(msg)
 
     def poseCallback(self,msg:Pose):
-        #self.get_logger().info(str(msg))
         self.x = msg.x
         self.y = msg.y
         self.theta = msg.theta
